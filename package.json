@@ -1,0 +1,12 @@
+{
+  "name": "crypto-keeper-pwa",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve .",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

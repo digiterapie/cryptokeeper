@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Jednoduché hlídání ručního prodeje kryptoměn IO, Render a AIOZ.">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Crypto Keeper</title>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <p class="eyebrow">Crypto Keeper</p>
+      <h1>🎯 Mise 1: Vrátit vložené peníze</h1>
+    </header>
+
+    <section class="mission card" aria-label="Stav mise">
+      <div class="row"><span>Celkem vloženo</span><strong id="totalInvested">–</strong></div>
+      <div class="row"><span>Celkem vybráno</span><strong id="totalWithdrawn">–</strong></div>
+      <div class="row"><span>Zbývá vrátit</span><strong id="remaining">–</strong></div>
+      <div class="bar" role="progressbar" aria-label="Postup návratu vkladu"><div id="progressBar"></div></div>
+      <div class="progressText" id="progressText">–</div>
+    </section>
+
+    <section class="card alertBox" id="mainAlert" aria-live="polite">Načítám ceny…</section>
+    <p class="updated" id="updatedAt"></p>
+    <section id="coins" aria-label="Kryptoměny"></section>
+
+    <section class="card notifications">
+      <h2>Upozornění</h2>
+      <button id="notifyBtn" type="button">Povolit notifikace</button>
+      <p class="note" id="notificationStatus">Kontrola v otevřené aplikaci probíhá každých 60 sekund.</p>
+    </section>
+
+    <p class="disclaimer">Pouze orientační upozornění pro ruční rozhodnutí. Aplikace neobchoduje a nemá přístup k Revolutu.</p>
+  </main>
+
+  <script src="/calculations.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

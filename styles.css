@@ -1,0 +1,30 @@
+:root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at top, #172554 0, #0b1020 34rem); color: #f8fafc; }
+.app { width: min(100% - 28px, 620px); margin: 0 auto; padding: max(24px, env(safe-area-inset-top)) 0 max(32px, env(safe-area-inset-bottom)); }
+header { padding: 10px 4px 14px; }
+.eyebrow { margin: 0 0 6px; color: #93c5fd; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+h1 { margin: 0; max-width: 560px; font-size: clamp(27px, 7vw, 38px); line-height: 1.08; }
+h2 { margin: 0 0 14px; font-size: 21px; }
+p { color: #cbd5e1; }
+.card { margin: 14px 0; padding: 17px; border: 1px solid #293750; border-radius: 18px; background: rgba(17, 24, 39, .94); box-shadow: 0 12px 35px rgba(0, 0, 0, .24); }
+.row { display: flex; justify-content: space-between; gap: 18px; margin: 9px 0; }
+.row span { color: #cbd5e1; }
+.row strong { text-align: right; font-variant-numeric: tabular-nums; }
+.bar { height: 14px; margin-top: 16px; overflow: hidden; border-radius: 999px; background: #263244; }
+.bar div { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #60a5fa, #34d399); transition: width .35s ease; }
+.progressText, .updated { margin: 8px 0 0; color: #94a3b8; font-size: 13px; }
+.updated { min-height: 18px; padding: 0 4px; text-align: right; }
+.alertBox { font-size: 17px; font-weight: 700; line-height: 1.4; }
+.alertBox.sell { border-color: #60a5fa; background: #172554; color: #dbeafe; }
+.alertBox.error { border-color: #fb7185; background: #4c0519; }
+.coin h2 { display: flex; align-items: center; gap: 8px; }
+.badge { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #263244; color: #cbd5e1; font-size: 12px; }
+.sellAction { margin-top: 15px; padding: 13px; border: 1px dashed #475569; border-radius: 14px; background: #0f172a; color: #e2e8f0; font-weight: 700; line-height: 1.4; }
+.sellAction.go { border-style: solid; border-color: #60a5fa; background: #172554; color: #dbeafe; }
+button { width: 100%; padding: 13px 16px; border: 0; border-radius: 12px; background: #f8fafc; color: #111827; font: inherit; font-weight: 800; cursor: pointer; }
+button:focus-visible { outline: 3px solid #60a5fa; outline-offset: 3px; }
+.note, .disclaimer { font-size: 13px; line-height: 1.5; }
+.note { margin-bottom: 0; }
+.disclaimer { padding: 0 4px; text-align: center; }
+@media (max-width: 390px) { .row { gap: 10px; font-size: 14px; } .card { padding: 15px; } }
