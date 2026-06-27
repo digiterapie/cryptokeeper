@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#111827" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Crypto Keeper</title>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>Crypto Keeper</h1>
+      <p>Mise 1: vrátit vložené peníze</p>
+    </header>
+
+    <section class="mission card">
+      <div class="row"><span>Vloženo celkem</span><strong id="totalInvested">–</strong></div>
+      <div class="row"><span>Už vybráno</span><strong id="totalWithdrawn">–</strong></div>
+      <div class="row"><span>Zbývá vrátit</span><strong id="remaining">–</strong></div>
+      <div class="bar"><div id="progressBar"></div></div>
+      <div class="progressText" id="progressText">–</div>
+    </section>
+
+    <section class="card alertBox" id="mainAlert">
+      Načítám ceny…
+    </section>
+
+    <section id="coins"></section>
+
+    <section class="card settings">
+      <h2>Nastavení</h2>
+      <label>Čistý cíl jednoho prodeje v Kč
+        <input id="targetNet" type="number" min="50" step="50" />
+      </label>
+      <label>Odhad poplatku Revolut Standard (%)
+        <input id="feeRate" type="number" min="0" step="0.01" />
+      </label>
+      <button id="saveSettings">Uložit</button>
+      <button id="notifyBtn">Povolit upozornění</button>
+      <button id="testBtn">Test upozornění</button>
+      <p class="note">Hlídání běží, když je miniapka otevřená. Pro nonstop hlídání i při zavřeném mobilu bude potřeba malý server/Telegram hlídač.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

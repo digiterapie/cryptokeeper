@@ -1,0 +1,23 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, sans-serif; background: #0b1020; color: #f9fafb; }
+.app { max-width: 620px; margin: 0 auto; padding: 18px; }
+header { padding: 16px 4px 10px; }
+h1 { margin: 0; font-size: 32px; }
+p { color: #cbd5e1; }
+.card { background: #111827; border: 1px solid #263244; border-radius: 18px; padding: 16px; margin: 14px 0; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+.row { display: flex; justify-content: space-between; gap: 12px; margin: 8px 0; }
+.row span { color: #cbd5e1; }
+.row strong { text-align: right; }
+.bar { height: 14px; background: #263244; border-radius: 999px; overflow: hidden; margin-top: 14px; }
+.bar div { height: 100%; width: 0%; background: #e5e7eb; transition: width .3s; }
+.progressText { margin-top: 8px; color: #cbd5e1; }
+.alertBox { font-size: 18px; line-height: 1.35; }
+.alertBox.sell { background: #172554; border-color: #60a5fa; }
+.coin h2 { margin: 0 0 10px; }
+.badge { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #263244; color: #cbd5e1; font-size: 13px; }
+.sellAction { margin-top: 12px; padding: 12px; border-radius: 14px; background: #0f172a; border: 1px dashed #475569; }
+.sellAction.go { border-color: #93c5fd; background: #172554; }
+label { display: block; margin: 12px 0; color: #cbd5e1; }
+input { width: 100%; margin-top: 6px; padding: 12px; border-radius: 12px; border: 1px solid #334155; background: #020617; color: #f9fafb; font-size: 16px; }
+button { width: 100%; margin-top: 10px; padding: 12px; border: 0; border-radius: 12px; background: #f9fafb; color: #111827; font-weight: 700; font-size: 16px; }
+.note { font-size: 13px; }
