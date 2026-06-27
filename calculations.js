@@ -7,7 +7,7 @@
 
   const SAFETY_RATE = 0.02;
   const TARGET_NET_CZK = 500;
-  const MIN_TARGET_RATIO = 0.98;
+  const MIN_PROFIT_CZK = 100;
 
   const PORTFOLIO = Object.freeze([
     Object.freeze({ id: "io", name: "io.net", symbol: "IO", tokens: 925.52, invested: 3500, withdrawn: 1500, decimals: 2 }),
@@ -36,39 +36,38 @@
       throw new Error(`Neplatna cena pro ${coin.id}`);
     }
 
-    const averageBuyPrice = Math.max(0, coin.invested - coin.withdrawn) / coin.tokens;
+    const protectedUnitPrice = coin.invested / coin.tokens;
     const netUnitPrice = priceCzk * (1 - SAFETY_RATE);
     const currentValue = coin.tokens * priceCzk;
     const currentNetValue = currentValue * (1 - SAFETY_RATE);
-    const totalRecoveredValue = coin.withdrawn + currentNetValue;
-    const differenceVsInvested = totalRecoveredValue - coin.invested;
+    const excessAbovePrincipal = currentNetValue - coin.invested;
     const maxQuantity = roundDown(coin.tokens, coin.decimals);
-    const targetQuantity = roundDown(TARGET_NET_CZK / netUnitPrice, coin.decimals);
+    const desiredNetProceeds = Math.min(TARGET_NET_CZK, Math.max(0, excessAbovePrincipal));
+    const targetQuantity = roundDown(desiredNetProceeds / netUnitPrice, coin.decimals);
     const quantity = Math.min(targetQuantity, maxQuantity);
     const netProceeds = quantity * netUnitPrice;
-    const profitable = netUnitPrice > averageBuyPrice;
-    const targetReached = netProceeds >= TARGET_NET_CZK * MIN_TARGET_RATIO;
+    const principalProtected = currentNetValue - netProceeds >= coin.invested;
+    const minimumReached = netProceeds >= MIN_PROFIT_CZK;
     const goalOpen = goalRemainingCzk > 0;
-    const shouldSell = goalOpen && profitable && quantity > 0 && targetReached;
+    const shouldSell = goalOpen && principalProtected && quantity > 0 && minimumReached;
 
     let status;
     if (!goalOpen) status = "Neprodávat – cíl návratu vkladu je splněn";
-    else if (!profitable) status = "Neprodávat – bylo by ztrátové";
-    else if (!targetReached) status = "Neprodávat – ještě není dostatečný čistý výnos";
-    else status = `PRODAT: ${quantity.toFixed(coin.decimals)} ${coin.symbol}, odhad čistě ${Math.round(netProceeds)} Kč`;
+    else if (excessAbovePrincipal <= 0) status = "Neprodávat – čistá hodnota nepřevyšuje původní vklad";
+    else if (!minimumReached) status = `Neprodávat – čistý přebytek je menší než ${MIN_PROFIT_CZK} Kč`;
+    else status = `PRODAT: ${quantity.toFixed(coin.decimals)} ${coin.symbol}, vybereš přibližně ${Math.round(netProceeds)} Kč zisku`;
 
     return {
       coin,
       priceCzk,
       currentValue,
       currentNetValue,
-      totalRecoveredValue,
-      differenceVsInvested,
-      averageBuyPrice,
+      excessAbovePrincipal,
+      protectedUnitPrice,
       netUnitPrice,
       quantity,
       netProceeds,
-      profitable,
+      principalProtected,
       shouldSell,
       status
     };
@@ -82,6 +81,7 @@
   return {
     SAFETY_RATE,
     TARGET_NET_CZK,
+    MIN_PROFIT_CZK,
     PORTFOLIO,
     portfolioTotals,
     calculateSignal,

@@ -1,6 +1,6 @@
 # Crypto Keeper PWA
 
-Jednoduchá PWA pro sledování IO, Render a AIOZ. Každých 60 sekund v otevřené aplikaci načte ceny v CZK z CoinGecko a upozorní pouze tehdy, když prodej po 2% bezpečnostní rezervě není ztrátový a přinese přibližně 500 Kč čistého. Aplikace nic neprodává a nemá přístup k Revolutu.
+Jednoduchá PWA pro sledování IO, Render a AIOZ. Každých 60 sekund v otevřené aplikaci načte ceny v CZK z CoinGecko. U každé měny chrání celý původní vklad a upozorní pouze tehdy, když lze po 2% bezpečnostní rezervě prodat nejméně 100 Kč čistého přebytku. Z přebytku do 500 Kč navrhne celý přebytek, nad 500 Kč přibližně 500 Kč. Dříve vybrané zisky rozhodnutí o dalším prodeji neovlivňují; započítávají se pouze do postupu mise. Aplikace nic neprodává a nemá přístup k Revolutu.
 
 ## 1. Lokální spuštění
 
@@ -45,4 +45,4 @@ Stejný signál se neopakuje každou minutu. Aplikace si stav ukládá v zaříz
 
 ## 5. Omezení
 
-PWA kontroluje ceny po 60 sekundách, když je otevřená. Mobilní systém může aplikaci na pozadí uspat; service worker sám pravidelnou kontrolu cen negarantuje. E-mailová kontrola běží serverově i při zavřené aplikaci, ale na Vercel Hobby pouze jednou denně. Ceny a doporučení jsou orientační a skutečný kurz, spread i poplatek v Revolutu se mohou lišit.
+PWA kontroluje ceny po 60 sekundách, když je otevřená. Mobilní systém může aplikaci na pozadí uspat; service worker sám pravidelnou kontrolu cen negarantuje. E-mailová kontrola běží serverově i při zavřené aplikaci, ale na Vercel Hobby pouze jednou denně. Ceny a doporučení jsou orientační a skutečný kurz, spread i poplatek v Revolutu se mohou lišit. U malého prodeje může minimální poplatek Revolutu překročit 2% rezervu, proto je vždy nutné před potvrzením zkontrolovat výslednou částku přímo v Revolutu.

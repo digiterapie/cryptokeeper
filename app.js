@@ -1,6 +1,6 @@
 "use strict";
 
-const { PORTFOLIO, TARGET_NET_CZK, portfolioTotals, calculateSignals } = window.CryptoKeeper;
+const { PORTFOLIO, portfolioTotals, calculateSignals } = window.CryptoKeeper;
 const PRICE_URL = `https://api.coingecko.com/api/v3/simple/price?ids=${PORTFOLIO.map((coin) => coin.id).join(",")}&vs_currencies=czk`;
 const POLL_MS = 60_000;
 const ALERT_COOLDOWN_MS = 6 * 60 * 60 * 1000;
@@ -56,7 +56,7 @@ async function showSignalNotification(signal) {
   if (isNewSignal || materiallyChanged || reminderDue) {
     const registration = await navigator.serviceWorker.ready;
     await registration.showNotification("Crypto Keeper", {
-      body: `${signal.coin.name} – prodej ${signal.quantity.toFixed(signal.coin.decimals)} ${signal.coin.symbol}, odhad čistě ${Math.round(signal.netProceeds)} Kč.`,
+      body: `${signal.coin.name} – prodej ${signal.quantity.toFixed(signal.coin.decimals)} ${signal.coin.symbol}, vybereš přibližně ${Math.round(signal.netProceeds)} Kč zisku.`,
       icon: "/icon-192.png",
       badge: "/icon-192.png",
       tag: `sell-${signal.coin.id}`,
@@ -84,7 +84,9 @@ function renderCoin(signal) {
     <div class="row"><span>Aktuální cena</span><strong>${czk(signal.priceCzk, 2)}</strong></div>
     <div class="row"><span>Drženo</span><strong>${number(signal.coin.tokens)} ${signal.coin.symbol}</strong></div>
     <div class="row"><span>Aktuální hodnota</span><strong>${czk(signal.currentValue)}</strong></div>
-    <div class="row"><span>Průměrná nákupní cena</span><strong>${czk(signal.averageBuyPrice, 2)}</strong></div>
+    <div class="row"><span>Čistá hodnota po rezervě</span><strong>${czk(signal.currentNetValue)}</strong></div>
+    <div class="row"><span>Chráněný původní vklad</span><strong>${czk(signal.coin.invested)}</strong></div>
+    <div class="row"><span>Přebytek nad vklad</span><strong class="${signal.excessAbovePrincipal >= 0 ? "positive" : "negative"}">${czk(signal.excessAbovePrincipal)}</strong></div>
     <div class="sellAction ${signal.shouldSell ? "go" : ""}">${signal.status}</div>`;
   return section;
 }
@@ -92,30 +94,28 @@ function renderCoin(signal) {
 function renderPortfolioOverview(signals) {
   const body = document.getElementById("portfolioOverview");
   body.innerHTML = signals.map((signal) => {
-    const differenceClass = signal.differenceVsInvested >= 0 ? "positive" : "negative";
-    const differencePrefix = signal.differenceVsInvested > 0 ? "+" : "";
+    const differenceClass = signal.excessAbovePrincipal >= 0 ? "positive" : "negative";
+    const differencePrefix = signal.excessAbovePrincipal > 0 ? "+" : "";
     return `<tr>
       <th scope="row">${signal.coin.symbol}</th>
       <td>${czk(signal.coin.invested)}</td>
-      <td>${czk(signal.totalRecoveredValue)}</td>
-      <td class="${differenceClass}">${differencePrefix}${czk(signal.differenceVsInvested)}</td>
+      <td>${czk(signal.currentNetValue)}</td>
+      <td class="${differenceClass}">${differencePrefix}${czk(signal.excessAbovePrincipal)}</td>
     </tr>`;
   }).join("");
 
   const totals = signals.reduce((sum, signal) => ({
     invested: sum.invested + signal.coin.invested,
-    withdrawn: sum.withdrawn + signal.coin.withdrawn,
     currentNetValue: sum.currentNetValue + signal.currentNetValue,
-    totalRecoveredValue: sum.totalRecoveredValue + signal.totalRecoveredValue,
-    differenceVsInvested: sum.differenceVsInvested + signal.differenceVsInvested
-  }), { invested: 0, withdrawn: 0, currentNetValue: 0, totalRecoveredValue: 0, differenceVsInvested: 0 });
-  const totalClass = totals.differenceVsInvested >= 0 ? "positive" : "negative";
-  const totalPrefix = totals.differenceVsInvested > 0 ? "+" : "";
+    excessAbovePrincipal: sum.excessAbovePrincipal + signal.excessAbovePrincipal
+  }), { invested: 0, currentNetValue: 0, excessAbovePrincipal: 0 });
+  const totalClass = totals.excessAbovePrincipal >= 0 ? "positive" : "negative";
+  const totalPrefix = totals.excessAbovePrincipal > 0 ? "+" : "";
   document.getElementById("portfolioOverviewTotal").innerHTML = `<tr>
     <th scope="row">Celkem</th>
     <td>${czk(totals.invested)}</td>
-    <td>${czk(totals.totalRecoveredValue)}</td>
-    <td class="${totalClass}">${totalPrefix}${czk(totals.differenceVsInvested)}</td>
+    <td>${czk(totals.currentNetValue)}</td>
+    <td class="${totalClass}">${totalPrefix}${czk(totals.excessAbovePrincipal)}</td>
   </tr>`;
 }
 

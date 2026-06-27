@@ -38,7 +38,7 @@ async function sendEmail(signals) {
   const from = process.env.ALERT_EMAIL_FROM;
   if (!apiKey || !to || !from) throw new Error("Chybí RESEND_API_KEY, ALERT_EMAIL_TO nebo ALERT_EMAIL_FROM");
 
-  const rows = signals.map((signal) => `<li><strong>${escapeHtml(signal.coin.name)}</strong>: prodat ${signal.quantity.toFixed(signal.coin.decimals)} ${escapeHtml(signal.coin.symbol)}, odhad čistě ${Math.round(signal.netProceeds)} Kč (cena ${signal.priceCzk.toFixed(2)} Kč)</li>`).join("");
+  const rows = signals.map((signal) => `<li><strong>${escapeHtml(signal.coin.name)}</strong>: prodat ${signal.quantity.toFixed(signal.coin.decimals)} ${escapeHtml(signal.coin.symbol)}, vybereš přibližně ${Math.round(signal.netProceeds)} Kč zisku (cena ${signal.priceCzk.toFixed(2)} Kč)</li>`).join("");
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
