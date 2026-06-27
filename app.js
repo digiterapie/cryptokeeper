@@ -89,11 +89,42 @@ function renderCoin(signal) {
   return section;
 }
 
+function renderPortfolioOverview(signals) {
+  const body = document.getElementById("portfolioOverview");
+  body.innerHTML = signals.map((signal) => {
+    const differenceClass = signal.differenceVsInvested >= 0 ? "positive" : "negative";
+    const differencePrefix = signal.differenceVsInvested > 0 ? "+" : "";
+    return `<tr>
+      <th scope="row">${signal.coin.symbol}</th>
+      <td>${czk(signal.coin.invested)}</td>
+      <td>${czk(signal.totalRecoveredValue)}</td>
+      <td class="${differenceClass}">${differencePrefix}${czk(signal.differenceVsInvested)}</td>
+    </tr>`;
+  }).join("");
+
+  const totals = signals.reduce((sum, signal) => ({
+    invested: sum.invested + signal.coin.invested,
+    withdrawn: sum.withdrawn + signal.coin.withdrawn,
+    currentNetValue: sum.currentNetValue + signal.currentNetValue,
+    totalRecoveredValue: sum.totalRecoveredValue + signal.totalRecoveredValue,
+    differenceVsInvested: sum.differenceVsInvested + signal.differenceVsInvested
+  }), { invested: 0, withdrawn: 0, currentNetValue: 0, totalRecoveredValue: 0, differenceVsInvested: 0 });
+  const totalClass = totals.differenceVsInvested >= 0 ? "positive" : "negative";
+  const totalPrefix = totals.differenceVsInvested > 0 ? "+" : "";
+  document.getElementById("portfolioOverviewTotal").innerHTML = `<tr>
+    <th scope="row">Celkem</th>
+    <td>${czk(totals.invested)}</td>
+    <td>${czk(totals.totalRecoveredValue)}</td>
+    <td class="${totalClass}">${totalPrefix}${czk(totals.differenceVsInvested)}</td>
+  </tr>`;
+}
+
 async function refresh() {
   const alert = document.getElementById("mainAlert");
   try {
     const prices = await fetchPrices();
     const signals = calculateSignals(prices);
+    renderPortfolioOverview(signals);
     const coins = document.getElementById("coins");
     coins.replaceChildren(...signals.map(renderCoin));
     const sellSignals = signals.filter((signal) => signal.shouldSell);

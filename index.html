@@ -25,6 +25,25 @@
       <div class="progressText" id="progressText">–</div>
     </section>
 
+    <section class="card overview" aria-labelledby="overviewTitle">
+      <h2 id="overviewTitle">Vklady podle měn</h2>
+      <div class="tableWrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Měna</th>
+              <th scope="col">Vloženo</th>
+              <th scope="col">Dnes*</th>
+              <th scope="col">Rozdíl</th>
+            </tr>
+          </thead>
+          <tbody id="portfolioOverview"></tbody>
+          <tfoot id="portfolioOverviewTotal"></tfoot>
+        </table>
+      </div>
+      <p class="tableNote">* „Dnes“ = už vybráno + hodnota držených tokenů po 2% rezervě.</p>
+    </section>
+
     <section class="card alertBox" id="mainAlert" aria-live="polite">Načítám ceny…</section>
     <p class="updated" id="updatedAt"></p>
     <section id="coins" aria-label="Kryptoměny"></section>

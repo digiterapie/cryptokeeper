@@ -22,6 +22,14 @@ test("výnos i množství používají dvouprocentní rezervu", () => {
   assert.equal(result.shouldSell, true);
 });
 
+test("přehled porovnává vklad s vybranou částkou a čistou hodnotou pozice", () => {
+  const io = PORTFOLIO[0];
+  const result = calculateSignal(io, 4, 5999);
+  assert.equal(result.currentNetValue, io.tokens * 4 * 0.98);
+  assert.equal(result.totalRecoveredValue, io.withdrawn + result.currentNetValue);
+  assert.equal(result.differenceVsInvested, result.totalRecoveredValue - io.invested);
+});
+
 test("AIOZ se zaokrouhluje dolů na celé kusy", () => {
   const aioz = PORTFOLIO[2];
   const result = calculateSignal(aioz, 5, 5999);

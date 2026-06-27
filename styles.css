@@ -15,6 +15,17 @@ p { color: #cbd5e1; }
 .bar div { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #60a5fa, #34d399); transition: width .35s ease; }
 .progressText, .updated { margin: 8px 0 0; color: #94a3b8; font-size: 13px; }
 .updated { min-height: 18px; padding: 0 4px; text-align: right; }
+.tableWrap { overflow-x: auto; margin: 0 -17px; padding: 0 17px 4px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { padding: 10px 9px; border-bottom: 1px solid #293750; text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { padding-left: 0; text-align: left; }
+th:last-child, td:last-child { padding-right: 0; }
+thead th { color: #94a3b8; font-size: 12px; }
+tbody th { color: #e2e8f0; }
+tfoot th, tfoot td { border-bottom: 0; font-weight: 800; }
+.positive { color: #6ee7b7; font-weight: 800; }
+.negative { color: #fda4af; font-weight: 800; }
+.tableNote { margin: 10px 0 0; color: #94a3b8; font-size: 12px; line-height: 1.45; }
 .alertBox { font-size: 17px; font-weight: 700; line-height: 1.4; }
 .alertBox.sell { border-color: #60a5fa; background: #172554; color: #dbeafe; }
 .alertBox.error { border-color: #fb7185; background: #4c0519; }
@@ -27,4 +38,4 @@ button:focus-visible { outline: 3px solid #60a5fa; outline-offset: 3px; }
 .note, .disclaimer { font-size: 13px; line-height: 1.5; }
 .note { margin-bottom: 0; }
 .disclaimer { padding: 0 4px; text-align: center; }
-@media (max-width: 390px) { .row { gap: 10px; font-size: 14px; } .card { padding: 15px; } }
+@media (max-width: 390px) { .row { gap: 10px; font-size: 14px; } .card { padding: 15px; } th, td { padding: 10px 5px; font-size: 12px; } }

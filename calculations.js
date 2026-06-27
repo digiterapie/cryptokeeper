@@ -39,6 +39,9 @@
     const averageBuyPrice = Math.max(0, coin.invested - coin.withdrawn) / coin.tokens;
     const netUnitPrice = priceCzk * (1 - SAFETY_RATE);
     const currentValue = coin.tokens * priceCzk;
+    const currentNetValue = currentValue * (1 - SAFETY_RATE);
+    const totalRecoveredValue = coin.withdrawn + currentNetValue;
+    const differenceVsInvested = totalRecoveredValue - coin.invested;
     const maxQuantity = roundDown(coin.tokens, coin.decimals);
     const targetQuantity = roundDown(TARGET_NET_CZK / netUnitPrice, coin.decimals);
     const quantity = Math.min(targetQuantity, maxQuantity);
@@ -58,6 +61,9 @@
       coin,
       priceCzk,
       currentValue,
+      currentNetValue,
+      totalRecoveredValue,
+      differenceVsInvested,
       averageBuyPrice,
       netUnitPrice,
       quantity,

@@ -1,4 +1,4 @@
-const CACHE = "crypto-keeper-v3";
+const CACHE = "crypto-keeper-v4";
 const ASSETS = ["/", "/index.html", "/styles.css", "/calculations.js", "/app.js", "/manifest.json", "/icon-192.png", "/icon-512.png"];
 
 self.addEventListener("install", (event) => {
